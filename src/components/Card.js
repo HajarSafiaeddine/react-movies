@@ -5,6 +5,13 @@ const Card = (props) => {
       let[yy,mm,dd] = date.split("-");
       return [dd,mm,yy].join("/");
     }
+    const addStorage = () =>{
+      let storedData = window.localStorage.movies ?  window.localStorage.movies.split(",") : [] ;
+      if (!storedData.includes(props.id.toString())) {
+        storedData.push(props.id);
+        window.localStorage.movies = storedData;
+      }
+    };
     const genreFinder = () => {
       let genreArray = [];
       for (let i = 0; i < props.genre_ids.length; i++) {
@@ -87,7 +94,9 @@ const Card = (props) => {
         <h4><span>⭐</span> {props.vote_average}/10 </h4>
         <ul>{genreFinder()}</ul>
         {props.overview ? <h3>synopsis</h3> : <p>Ce film ne contient pas de synopsis</p>}<p> {props.overview} </p>
-        <div className="btn">Ajouter aux coups de coeur</div>
+        <div className="btn" onClick={() => addStorage()}>
+          Ajouter aux coups de coeur
+        </div>
       </div>
     );
 };
